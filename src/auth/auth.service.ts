@@ -36,6 +36,10 @@ export class AuthService {
     return this.userRepository.save(newUser);
   }
 
+  async findOneByUsername(username: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { username } });
+  }
+  
   create(createAuthDto: CreateAuthDto) {
     return 'This action adds a new auth';
   }

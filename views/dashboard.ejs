@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard Admin</title>
-</head>
-<body>
-    <h1>Selamat Datang di Admin Panel</h1>
-    <p>Halo, <strong><%= user %></strong>! Anda berhasil masuk.</p>
-
-    <hr>
-    <h3>Menu Navigasi</h3>
-    <ul>
-        <li><a href="/dashboard">Home</a></li>
-        <li><a href="/auth/login">Keluar (Logout)</a></li>
-    </ul>
-</body>
-</html>
+<table>
+  <thead>
+    <tr>
+      <th>No. Order</th>
+      <th>Kasir</th>
+      <th>Pelanggan</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% transactions.forEach(tr => { %>
+      <tr>
+        <td><%= tr.order_number %></td>
+        <td><%= tr.user.username %></td>
+        <td><%= tr.customer ? tr.customer.name : 'Umum' %></td>
+        <td>Rp <%= tr.total_price.toLocaleString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

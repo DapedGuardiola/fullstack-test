@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DashboardService } from './dashboard.service';
 import { DashboardController } from './dashboard.controller';
+import { DashboardService } from './dashboard.service';
+import { TransactionModule } from '../transaction/transaction.module';
 
 @Module({
+  imports: [TransactionModule],
   controllers: [DashboardController],
   providers: [DashboardService],
 })

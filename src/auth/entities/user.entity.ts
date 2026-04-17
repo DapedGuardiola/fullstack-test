@@ -11,6 +11,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: 'kasir' }) // Menandakan peran pengguna
+  @Column({ default: 'kasir' })
   role: string;
 }

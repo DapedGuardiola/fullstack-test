@@ -1,0 +1,18 @@
+{
+  "users": [
+    { "username": "admin2", "password": "admin1234", "role": "admin" },
+    { "username": "david", "password": "password123", "role": "kasir" }
+  ],
+  "customers": [
+    { "name": "Muhammad Satria", "phone": "08112333121" },
+    { "name": "Rizky Roza", "phone": "08634563334" },
+    { "name": "Septian Tito Hidayahtulla", "phone": "083234451233" },
+    { "name": "Abhinaya Nuzzuluzuludi", "phone": "08234234255" }
+  ],
+  "transactions": [
+    { "order_number": "INV-001", "total_price": 150000, "user_idx": 0, "cust_idx": 0 },
+    { "order_number": "INV-002", "total_price": 75000, "user_idx": 1, "cust_idx": 1 },
+    { "order_number": "INV-003", "total_price": 250000, "user_idx": 0, "cust_idx": 2 },
+    { "order_number": "INV-004", "total_price": 50000, "user_idx": 1, "cust_idx": 3 }
+  ]
+}
