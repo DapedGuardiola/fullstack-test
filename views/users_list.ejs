@@ -5,43 +5,62 @@
   <title>Manajemen Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light py-5">
   <div class="container">
+
+    <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="fw-bold">Manajemen Admin</h2>
       <div>
-        <a href="/auth/auth_form" class="btn btn-warning text-dark fw-bold">Tambahkan Admin</a>
-        <a href="/dashboard" class="btn btn-secondary">Kembali ke Dashboard</a>
+        <h2 class="fw-bold mb-0">Manajemen Admin</h2>
+        <small class="text-muted">Daftar pengguna dengan hak akses sistem</small>
       </div>
+      <a href="/dashboard" class="btn btn-outline-secondary">
+        Kembali ke Dashboard
+      </a>
     </div>
 
+    <!-- TABLE -->
     <div class="card shadow-sm border-0">
       <div class="card-body p-0">
-        <table class="table table-hover mb-0">
+
+        <table class="table table-hover align-middle mb-0">
           <thead class="table-dark">
             <tr>
-              <th>ID</th>
               <th>Username</th>
-              <th class="text-center">Aksi</th>
+              <th>Role</th>
             </tr>
           </thead>
+
           <tbody>
             <% users.forEach(user => { %>
             <tr>
-              <td><%= user.id %></td>
-              <td><strong><%= user.username %></strong></td>
-              <td class="text-center">
-                <a href="/auth/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a>
-                <form action="/auth/delete/<%= user.id %>" method="POST" style="display:inline;">
-                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Hapus akses admin?')">Delete</button>
-                </form>
+              <td class="fw-semibold text-primary">
+                <%= user.username %>
+              </td>
+
+              <td>
+                <span class="badge bg-primary">
+                  <%= user.role || 'Admin' %>
+                </span>
               </td>
             </tr>
             <% }) %>
+
+            <% if (users.length === 0) { %>
+            <tr>
+              <td colspan="2" class="text-center py-4 text-muted">
+                Tidak ada data admin
+              </td>
+            </tr>
+            <% } %>
           </tbody>
+
         </table>
+
       </div>
     </div>
+
   </div>
 </body>
 </html>

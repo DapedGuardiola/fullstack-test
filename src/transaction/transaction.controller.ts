@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,Render,Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,Render,Res, Query } from '@nestjs/common';
 import { TransactionsService } from './transaction.service';
 import { CustomersService } from './../customers/customers.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
@@ -17,11 +17,21 @@ export class TransactionController {
   }
 
   @Get('list')
-  @Render('transaction_list')
-  async findAll() {
-    const data = await this.transactionsService.findAll();
-    return { transactions: data };
+@Render('transaction_list')
+async findAll(@Query() query) {
+  let data;
+
+  if (query.order_number || query.customer) {
+    data = await this.transactionsService.filter(query);
+  } else {
+    data = await this.transactionsService.findAll();
   }
+
+  return { 
+    transactions: data,
+    query // kirim balik ke view biar input tetap ada
+  };
+}
   
   @Get('detail/:id')
   @Render('transaction_detail')

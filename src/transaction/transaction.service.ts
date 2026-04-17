@@ -9,13 +9,13 @@ export class TransactionsService {
   constructor(
     @InjectRepository(Transaction)
     private transactionRepository: Repository<Transaction>,
-  ) {}
+  ) { }
 
   async create(data: any) {
     const newTransaction = this.transactionRepository.create(data);
     return this.transactionRepository.save(newTransaction);
   }
-  
+
   async findAll() {
     return this.transactionRepository.find({
       relations: ['user', 'customer'],
@@ -23,11 +23,32 @@ export class TransactionsService {
     });
   }
 
+  async filter(query: any) {
+    const qb = this.transactionRepository.createQueryBuilder('transaction')
+      .leftJoinAndSelect('transaction.user', 'user')
+      .leftJoinAndSelect('transaction.customer', 'customer')
+      .orderBy('transaction.created_at', 'DESC');
+
+    if (query.order_number) {
+      qb.andWhere('transaction.order_number LIKE :order_number', {
+        order_number: `%${query.order_number}%`,
+      });
+    }
+
+    if (query.customer) {
+      qb.andWhere('customer.name LIKE :customer', {
+        customer: `%${query.customer}%`,
+      });
+    }
+
+    return qb.getMany();
+  }
+
   // TAMBAHKAN METHOD DI BAWAH INI:
   async findOneByOrderNumber(order_number: string): Promise<Transaction | null> {
     return this.transactionRepository.findOne({ where: { order_number } });
   }
-  
+
   async findOne(id: number) {
     const transaction = await this.transactionRepository.findOne({
       where: { id },
