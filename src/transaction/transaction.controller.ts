@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,Render,Res } from '@nestjs/common';
 import { TransactionsService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -12,9 +12,11 @@ export class TransactionController {
     return this.transactionsService.create(createTransactionDto);
   }
 
-  @Get()
-  findAll() {
-    return this.transactionsService.findAll();
+  @Get('list')
+  @Render('transaction_list')
+  async findAll() {
+    const data = await this.transactionsService.findAll();
+    return { transactions: data };
   }
 
   @Get(':id')

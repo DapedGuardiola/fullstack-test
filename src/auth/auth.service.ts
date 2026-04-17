@@ -45,18 +45,20 @@ export class AuthService {
   }
 
   findAll() {
-    return `This action returns all auth`;
+    return this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async findOne(id: number) {
+    return await this.userRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  async update(id: number, updateAuthDto: UpdateAuthDto) {
+    await this.userRepository.update(id, updateAuthDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async remove(id: number) {
+    await this.userRepository.delete(id);
+    return { deleted: true };
   }
 }

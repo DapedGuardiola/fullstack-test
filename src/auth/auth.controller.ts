@@ -25,10 +25,12 @@ export class AuthController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
+  @Get('users_list') // Menangkap request ke /users (atau /admin tergantung @Controller-nya)
+@Render('users_list') // Nama file .ejs kamu (misal: views/users_list.ejs)
+async viewAllUsers() {
+  const users = await this.authService.findAll();
+  return { users }; // Mengirim array users ke file EJS
+}
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -12,10 +12,12 @@ export class CustomersController {
     return this.customersService.create(createCustomerDto);
   }
 
-  @Get()
-  findAll() {
-    return this.customersService.findAll();
-  }
+  @Get('list')
+@Render('customers_list')
+async viewAllCustomers() {
+  const customers = await this.customersService.findAll();
+  return { customers };
+}
 
   @Get(':id')
   findOne(@Param('id') id: string) {

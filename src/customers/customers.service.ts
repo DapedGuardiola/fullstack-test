@@ -12,7 +12,7 @@ export class CustomersService {
     private customerRepository: Repository<Customer>,
   ) {}
 
-  // 1. Logika untuk Seeder (Cari berdasarkan Nomor Telepon)
+  // 1. Logika untuk Pengisian Data (Pencarian berdasarkan nomor telepon pada saat awal aplikasi dibuka)
   async findOneByPhone(phone: string): Promise<Customer | null> {
     return this.customerRepository.findOne({ where: { phone } });
   }
