@@ -10,7 +10,7 @@ export class CustomersService {
   constructor(
     @InjectRepository(Customer)
     private customerRepository: Repository<Customer>,
-  ) {}
+  ) { }
 
   async findOneByPhone(phone: string): Promise<Customer | null> {
     return this.customerRepository.findOne({ where: { phone } });
@@ -31,10 +31,8 @@ export class CustomersService {
     return customer;
   }
 
-  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    await this.findOne(id); // Validasi apakah ID ada
-    await this.customerRepository.update(id, updateCustomerDto);
-    return this.findOne(id);
+  async update(id: number, dto: UpdateCustomerDto) {
+    return await this.customerRepository.update(id, dto);
   }
 
   async remove(id: number) {

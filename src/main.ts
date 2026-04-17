@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import { AuthService } from './auth/auth.service';
 import { CustomersService } from './customers/customers.service';
 import { TransactionsService } from './transaction/transaction.service';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -69,6 +70,12 @@ async function bootstrap() {
   } catch (error) {
     console.error('ERROR SAAT PENGISIAN DATA:', error.message);
   }
+
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,               
+    forbidNonWhitelisted: true,    
+    transform: true,               
+  }));
 
   await app.listen(3000);
 }
