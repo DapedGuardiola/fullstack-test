@@ -15,7 +15,7 @@ export class TransactionsService {
     const newTransaction = this.transactionRepository.create(data);
     return this.transactionRepository.save(newTransaction);
   }
-
+  
   async findAll() {
     return this.transactionRepository.find({
       relations: ['user', 'customer'],

@@ -52,7 +52,13 @@ export class AuthService {
     return await this.userRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, updateAuthDto: UpdateAuthDto) {
+  async update(id: number, updateAuthDto: any) {
+  if (updateAuthDto.password) {
+    const salt = await bcrypt.genSalt();
+    updateAuthDto.password = await bcrypt.hash(updateAuthDto.password, salt);
+  } else {
+      delete updateAuthDto.password;
+    }
     await this.userRepository.update(id, updateAuthDto);
     return this.findOne(id);
   }
