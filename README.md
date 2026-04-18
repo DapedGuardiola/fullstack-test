@@ -1,98 +1,158 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Sistem Manajemen Transaksi
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Aplikasi berbasis web menggunakan **NestJS** untuk mengelola data pelanggan dan transaksi dengan integrasi database MySQL serta server-side rendering menggunakan EJS.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Project Preparation
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+Download Node.js dari website resmi:
+https://nodejs.org/en/download
 
 ```bash
-$ npm install
+# install NestJS CLI
+npm install -g @nestjs/cli
+
+# install dependency project
+npm install
+
+# install dependency utama
+npm install @nestjs/typeorm typeorm mysql2
+npm install class-validator class-transformer
+npm install ejs
+npm install bcrypt
+npm install -D @types/bcrypt
 ```
 
-## Compile and run the project
+---
+## Database Design
+
+Entity Relationship Diagram
+###  Entity Relationship Diagram (ERD)
+![ERD](./src/assets/entity_relationship_diagram.jpg)
+
+
+Class Diagram
+###  Class Diagram
+![Class Diagram](./src/assets/class_diagram.jpg)
+## Configuration
+
+Konfigurasi database pada `app.module.ts`:
+
+```ts
+TypeOrmModule.forRoot({
+  type: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: '',
+  database: 'db_transaksi',
+  entities: [__dirname + '/**/*.entity{.ts,.js}'],
+  synchronize: true,
+});
+```
+
+Konfigurasi view engine (EJS) pada `main.ts`:
+
+```ts
+app.setViewEngine('ejs');
+app.setBaseViewsDir('views');
+```
+
+---
+
+## Running Application
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# menjalankan aplikasi
+npm run start:dev
 ```
 
-## Run tests
+Akses aplikasi:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+http://localhost:3000
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Example Usage
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Tambah Customer
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```http
+POST /customers/add
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Body:
 
-## Resources
+```
+name = Budi
+phone = 08123456789
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Tambah Transaksi
 
-## Support
+```http
+POST /transaction/add
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Body:
 
-## Stay in touch
+```
+order_number = INV-001
+total_price = 100000
+customerId = 1
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
+
+## Features
+
+* CRUD Customer
+* CRUD Transaksi
+* Relasi Customer dengan Transaksi
+* Validasi input (class-validator)
+* Password hashing (bcrypt)
+* Server-side rendering (EJS)
+
+---
+
+## Project Structure
+
+```
+src/
+├── customers/
+├── transaction/
+├── auth/
+├── entities/
+└── main.ts
+
+views/
+├── customers_form.ejs
+├── customers_list.ejs
+├── transaction_list.ejs
+```
+
+---
+
+## Notes
+
+* Gunakan **Body (x-www-form-urlencoded)** saat testing di Postman
+* Jangan gunakan Query Params untuk POST
+* Pastikan `customerId` valid saat membuat transaksi
+* Password harus di-hash menggunakan bcrypt
+
+---
+
+## Contributing
+
+Pull request diperbolehkan. Untuk perubahan besar, silakan buat issue terlebih dahulu untuk diskusi.
+
+---
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+MIT
